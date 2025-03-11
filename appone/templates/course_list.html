@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mx-auto px-4 py-8 mt-16">
+
+    {% if courses %}
+    <h2 class="text-3xl font-semibold mb-6">Курсы</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for course in courses %}
+        <a href="{% url 'course_detail' course.pk %}">
+            <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
+                <img src="{{ course.photo.url }}" alt="{{ course.title }}" class="w-full h-64 object-cover">
+                <div class="bg-gray-900 p-5 rounded-b-lg">
+                    <p class="text-xl font-semibold text-white mb-2">{{ course.title }}</p>
+                    <p class="text-gray-300 text-sm">Сезон: {{ course.start_date|date:"d M Y" }} – {{ course.end_date|date:"d M Y" }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+        <h2 class="text-3xl font-semibold text-white mb-6">Нет курсов</h2>
+    {% endif %}
+</div>
+
+{% endblock %}

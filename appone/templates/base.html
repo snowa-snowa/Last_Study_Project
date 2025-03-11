@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <title>It up academy {% block title %}{% endblock %}</title>
+    </head>
+
+<body class="bg-gray-700 flex flex-col min-h-screen" style="color: white;">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900 py-5 px-8 flex items-center">
+
+    <a href="/" class="text-xl font-semibold mr-7 btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Академия IT UP</a>
+
+    <div class="flex space-x-6">
+        {% if request.user.is_authenticated %}
+            <a href="/courses/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Курсы</a>
+            <a href="/teachers/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Учителя</a>
+            <a href="/tests/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Тесты</a>
+            <a href="/students/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Студенты</a>
+            <a href="/logout/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Выйти</a>
+            <a href="/signup/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Регистрация</a>
+        {% else %}
+            <a href="/courses/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Курсы</a>
+            <a href="/teachers/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Учителя</a>
+            <a href="/tests/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Тесты</a>
+            <a href="/students/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Студенты</a>
+            <a href="/login/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Вход</a>
+            <a href="/signup/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Регистрация</a>
+        {% endif %}
+
+<div class="relative ml-4">
+  <button id="moreBtn" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">
+    Еще
+  </button>
+  <div id="moreLinks" class="absolute top-0 left-full ml-6 flex space-x-6 transform scale-x-0 origin-left opacity-0 transition duration-300 ease-out">
+    <a href="/swagger/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Swagger</a>
+    <a href="/redoc/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Redoc</a>
+    <a href="/api/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Api</a>
+    {% if request.user.is_authenticated %}
+    <a href="https://www.youtube.com/watch?v=nnLhx6zzUss&list=PLXPrA9Gm6TC3gBIOsIv8QgUZoYAT-hHFx&index=6/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">{{ user }}</a>
+    {% else %}
+    <a href="https://ru.pinterest.com/pin/921408405017608450/" class="btn btn-light hover:bg-gray-700 rounded-md px-1 py-2 transition duration-300 hover:scale-110">Аноним</a>
+    {% endif %}
+  </div>
+</div>
+
+    </div>
+
+        <form method="get" action="{% url 'course_list' %}" class="ml-auto relative font-semibold text-gray-600">
+            <div class="relative transition">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control w-64 pl-4 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-slate-950"
+                    placeholder="Поиск курсов"
+                    value="{{ request.GET.q }}"
+                    id="searchInput">
+
+                <button
+                    type="button"
+                    id="clearSearch"
+                    class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-900 text-xl">
+                    &times;
+                </button>
+            </div>
+        </form>
+
+    </nav>
+
+
+{% block content %}
+
+<div class="container mx-auto px-4 py-8 mt-16">
+    <h1 class="text-3xl font-semibold mb-6">Популярные курсы</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for course in courses %}
+        <a href="{% url 'course_detail' course.pk %}">
+            <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105">
+                <img src="{{ course.photo.url }}" alt="{{ course.title }}" class="w-full h-64 object-cover">
+                <div class="bg-gray-900 p-5 rounded-b-lg">
+                    <p class="text-xl font-semibold text-white mb-2">{{ course.title }}</p>
+                    <p class="text-gray-300 text-sm">Сезон: {{ course.start_date|date:"d M Y" }} – {{ course.end_date|date:"d M Y" }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+    <footer class="py-6 px-6 bg-gray-800 mt-auto">
+        <div class="container mx-auto flex justify-between">
+            <div class="w-2/3 pr-10">
+                <h3 class="mb-5 font-semibold text-gray-300">Информация</h3>
+                <hr class="gray-400 mb-4">
+                <p class="text-gray-400">Академия IT UP — это высшее учебное заведение, предлагающее обучение по таким
+                    дисциплинам, как английский и русский языки, программирование, робототехника, а также другие
+                    направления в сфере информационных технологий. Мы открыты для новых студентов и будем рады видеть
+                    вас в числе наших студентов.</p>
+            </div>
+
+            <div class="w-1/3">
+                <h3 class="mb-5 font-semibold text-gray-300">Связаться с нами</h3>
+                <hr class="gray-400 mb-4">
+                <ul class="space-y-2">
+                    <li><a href="https://t.me/snowa8snowa/" class="text-lg text-cyan-500 hover:text-cyan-400">Telegram</a></li>
+                    <li><a href="https://github.com/snowa-snowa/" class="text-lg text-cyan-500 hover:text-cyan-400">Github</a></li>
+                    <li><a href="http://127.0.0.1:8000/snow/" class="text-lg text-cyan-500 hover:text-cyan-400">Благодарности</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+<script>
+  document.getElementById('moreBtn').addEventListener('click', function() {
+      var moreLinks = document.getElementById('moreLinks');
+      if (moreLinks.classList.contains('scale-x-0')) {
+          moreLinks.classList.remove('scale-x-0', 'opacity-0');
+          moreLinks.classList.add('scale-x-100', 'opacity-100');
+      } else {
+          moreLinks.classList.remove('scale-x-100', 'opacity-100');
+          moreLinks.classList.add('scale-x-0', 'opacity-0');
+      }
+  });
+</script>
+
+<script>
+document.getElementById('clearSearch').addEventListener('click', function() {
+    document.getElementById('searchInput').value = '';
+});
+</script>

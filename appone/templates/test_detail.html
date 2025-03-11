@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-indigo-950 container mx-auto px-4 py-8 mt-16 max-w-4xl">
+    <h2 class="text-3xl font-semibold text-white mb-4 text-center">{{ test.title }}</h2>
+    <p class="mb-6 text-2xl text-center">
+        Курс: <a href="{% url 'course_detail' test.course.pk %}" class="text-cyan-500 hover:text-cyan-300">{{ test.course.title }}</a>
+    </p>
+
+    <hr class="border-gray-400 my-6">
+
+    {% if submitted %}
+
+    <p class="text-xl font-bold text-center mb-4">Общий балл: {{ score }} из {{ test.questions.all|length }}</p>
+
+
+{% if score <= 4 %}
+    <p class="text-rose-500 text-xl font-bold text-center mb-4">Оценка: Неудовлетворительно</p>
+{% elif score <= 7 %}
+    <p class="text-yellow-500 text-xl font-bold text-center mb-4">Оценка: Удовлетворительно</p>
+{% else %}
+    <p class="text-green-500 text-xl font-bold text-center mb-4">Оценка: Отлично</p>
+{% endif %}
+
+        {% for result in results %}
+            <div class="p-6 border border-gray-500 rounded-lg shadow-md mb-4">
+                <p class="text-white font-semibold">Вопрос {{ forloop.counter }}: {{ result.question.text }}</p>
+                <div class="mt-2">
+                    <hr class="border-gray-400 my-6">
+                    <p class="text-lg {% if result.selected_option == result.correct_option %}text-green-500{% else %}text-rose-500{% endif %}">
+                        Ваш ответ: {{ result.selected_option_text }}
+                    </p>
+                    <p class="text-gray-300 text-lg">Правильный ответ: {{ result.correct_option_text }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <form method="post" class="p-8 rounded-lg shadow-lg">
+            {% csrf_token %}
+            {% for question in test.questions.all %}
+                <div class="mb-6 border border-gray-500 rounded-lg p-4 mb-6">
+                    <p class="text-lg font-semibold text-white mb-3">Вопрос {{ forloop.counter }}: {{ question.text }}</p>
+                    <hr class="border-gray-400 my-6">
+                    <div class="space-y-3">
+                        <label class="block bg-gray-900 hover:bg-gray-600 text-white p-4 rounded-lg cursor-pointer transition duration-200 flex items-center peer-checked:bg-gray-700">
+                            <input type="radio" name="question_{{ question.id }}" value="1" class="peer hidden">
+                            <span class="ml-2 peer-checked:text-cyan-400 peer-checked:font-bold"> {{ question.option1 }} </span>
+                        </label>
+                        <label class="block bg-gray-900 hover:bg-gray-600 text-white p-4 rounded-lg cursor-pointer transition duration-200 flex items-center peer-checked:bg-gray-700">
+                            <input type="radio" name="question_{{ question.id }}" value="2" class="peer hidden">
+                            <span class="ml-2 peer-checked:text-cyan-400 peer-checked:font-bold"> {{ question.option2 }} </span>
+                        </label>
+                        <label class="block bg-gray-900 hover:bg-gray-600 text-white p-4 rounded-lg cursor-pointer transition duration-200 flex items-center peer-checked:bg-gray-700">
+                            <input type="radio" name="question_{{ question.id }}" value="3" class="peer hidden">
+                            <span class="ml-2 peer-checked:text-cyan-400 peer-checked:font-bold"> {{ question.option3 }} </span>
+                        </label>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="mt-6 w-full bg-gray-900 hover:bg-gray-600 text-white font-bold py-4 px-10 text-xl rounded-lg transition">
+                Отправить ответы
+            </button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

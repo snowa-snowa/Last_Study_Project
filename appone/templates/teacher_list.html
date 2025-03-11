@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mx-auto px-4 py-8 mt-16">
+    <h2 class="text-3xl font-semibold text-white mb-6">Учителя</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for teacher in teachers %}
+        <a href="{% url 'teacher_detail' teacher.pk %}" class="transform transition duration-300 hover:scale-105">
+            <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+                <img src="{{ teacher.photo.url }}" alt="{{ teacher.first_name }}" class="w-full h-56 object-cover">
+                <div class="bg-gray-800 p-4 rounded-b-xl">
+                    <p class="text-lg font-semibold text-white">{{ teacher.first_name }} {{ teacher.last_name }}</p>
+                    <p class="text-sm text-gray-300">{{ teacher.email }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

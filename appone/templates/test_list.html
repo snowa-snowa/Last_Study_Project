@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mx-auto px-4 py-8 mt-16">
+
+    {% if tests %}
+        <h2 class="text-3xl font-semibold text-white mb-6">Тесты</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {% for test in tests %}
+        <a href="{% url 'test_detail' test.pk %}" class="transform transition duration-300 hover:scale-105">
+            <div class="bg-indigo-950 rounded-lg overflow-hidden shadow-lg">
+                <div class="p-5">
+                    <h3 class="text-xl font-semibold text-white">{{ test.title }}</h3>
+                    <p class="text-gray-400 text-sm mt-2">Курс: {{ test.course.title }}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-b-lg">
+                    <span class="text-gray-300 text-sm">Вопросов: {{ test.questions.count }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-3xl font-semibold text-white mb-6">Нет тестов</p>
+    {% endif %}
+</div>
+
+{% endblock %}
