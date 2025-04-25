@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Благодарности{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center container mx-auto px-4 py-8 mt-16">
+    <div class="bg-gray-800 text-white p-10 rounded-lg shadow-lg w-full max-w-2xl">
+        <h2 class="text-2xl font-semibold text-white text-center mb-4">Благодарности</h2>
+        <hr class="border-gray-400 my-4">
+
+      <p class="text-gray-300 mb-6 text-center">Несмотря на то что этот сайт разрабатывал один <a href="https://www.youtube.com/watch?v=FbWsBmeL47E" class="hover:text-rose-800">человек</a>, сайт <a href="https://www.youtube.com/watch?v=L_21yVxie8g/" class="hover:text-rose-800">был</a> сделан с помощью 13 разных инструментов. <a href="https://ru.pinterest.com/pin/921408405016250451/" class="hover:text-rose-800">Я</a> выражаю благодарность следующим инструментам и ресурсам, которые помогли в разработке проекта.</p>
+
+        <ul class="space-y-3">
+            <li><a href="https://openai.com/chatgpt" class="text-cyan-500 hover:text-cyan-300" target="_blank">ChatGPT</a> — генерация и помощь с кодом</li>
+            <li><a href="https://tailwindcss.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Tailwind CSS</a> — стилизация и удобство разработки</li>
+            <li><a href="https://translate.yandex.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Yandex Translate</a> — перевод текстов</li>
+            <li><a href="https://www.youtube.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">YouTube</a> — обучающие материалы</li>
+            <li><a href="https://www.pinterest.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Pinterest</a> — вдохновение и дизайн</li>
+            <li><a href="https://ya.ru/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Яндекс</a> — поиск и ресурсы</li>
+            <li><a href="https://www.google.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Google</a> — стандарты веб-разработки</li>
+            <li><a href="https://restfulapi.net/" class="text-cyan-500 hover:text-cyan-300" target="_blank">REST API</a> — архитектура API</li>
+            <li><a href="https://swagger.io/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Swagger</a> — документация API</li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" class="text-cyan-500 hover:text-cyan-300" target="_blank">HTML</a> — основа веб-страниц</li>
+            <li><a href="https://https://www.mysql.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">MySQL</a> — база данных</li>
+            <li><a href="https://www.djangoproject.com/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Django</a> — веб-фреймворк на Python</li>
+            <li><a href="https://www.python.org/" class="text-cyan-500 hover:text-cyan-300" target="_blank">Python</a> — язык программирования</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

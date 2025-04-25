@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8 mt-16">
+    <h2 class="text-3xl font-bold mb-6">{{ course.title }}</h2>
+
+    <!-- Флекс-контейнер для выравнивания текста и фото по горизонтали -->
+    <div class="flex flex-col md:flex-row">
+        <!-- Левая часть: блок с текстом на тёмном фоне -->
+        <div class="md:w-1/2 bg-gray-800 p-6 rounded-md text-white">
+            <p class="mb-4">
+                Учитель:
+                <a href="{% url 'teacher_detail' course.teacher.pk %}" class="text-cyan-400 hover:text-cyan-300">
+                    {{ course.teacher.first_name }} {{ course.teacher.last_name }}
+                </a>
+            </p>
+            <p class="mb-4">Информация: {{ course.description }}</p>
+            <p class="mb-4">Начало: {{ course.start_date }}</p>
+            <p class="mb-4">Конец: {{ course.end_date }}</p>
+        </div>
+
+        <!-- Правая часть: блок для фотографии -->
+        <div class="md:w-1/2 md:pl-6 mt-6 md:mt-0 flex justify-end">
+            <img src="{{ course.photo.url }}" alt="{{ course.title }}" class="w-full object-cover rounded-md" style="max-width: 800px;">
+        </div>
+    </div>
+
+    <hr class="my-6 border-gray-400">
+
+    <h2 class="text-2xl font-semibold mb-4">Студенты курса</h2>
+    <ul class="list-disc list-inside text-gray-300 bg-gray-800 p-6 rounded-md">
+        {% for student in course.students.all %}
+            <li class="text-cyan-400">
+                <a href="{% url 'student_detail' student.pk %}" class="hover:text-cyan-300">
+                    {{ student.first_name }} {{ student.last_name }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Пока студентов нет, вы можете стать первым!</li>
+        {% endfor %}
+<hr class="border-gray-400 my-6">
+<span class="text-gray-200 mt-2 block">Всего студентов: {{ course.students.count }}</span>
+
+    </ul>
+
+    <hr class="my-6 border-gray-400">
+
+<h2 class="text-2xl font-semibold mb-4">Тест по курсу</h2>
+<a href="{% url 'test_detail' course.test.pk %}" class="block bg-gray-800 p-6 rounded-md">
+    <div class="flex justify-between items-center">
+        <span class="text-lg font-semibold">{{ course.test.title }}</span>
+        <span class="text-gray-300 text-sm">Вопросов: {{ course.test.questions.count }}</span>
+    </div>
+</a>
+
+</div>
+
+{% endblock %}
